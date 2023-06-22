@@ -22,13 +22,13 @@ public class HumanPlayer extends Player {
 
     private final Scanner keyboard;
 
-    public HumanPlayer(char playerSymbol) {
-        super(playerSymbol);
+    public HumanPlayer() {
         keyboard = new Scanner(System.in);
     }
 
     @Override
     public Move getMove(GameBoard board) {
+        System.out.println(board);
         System.out.print("Please make a move: ");
         char playerInput = keyboard.next().charAt(0);
 
@@ -39,5 +39,10 @@ public class HumanPlayer extends Player {
         }
 
         return keyboardToMoveMap.get(playerInput);
+    }
+
+    @Override
+    public void processWinner(char winner) {
+        System.out.printf("We have a winner: %c", winner);
     }
 }

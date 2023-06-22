@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
  */
 public class GameBoard {
     private static final int BOARD_SIZE = 3;
+    public static final char PLAYER_1 = 'X';
+    public static final char PLAYER_2 = 'O';
 
     char[][] board = new char[BOARD_SIZE][BOARD_SIZE];
 
@@ -19,6 +22,18 @@ public class GameBoard {
                 board[i][j] = ' ';
             }
         }
+    }
+
+    public GameBoard(char[][] board) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                this.board[i][j] = board[i][j];
+            }
+        }
+    }
+
+    public GameBoard(GameBoard gameBoard) {
+        this(gameBoard.board);
     }
 
     @Override
@@ -50,8 +65,18 @@ public class GameBoard {
         return moves;
     }
 
-    public void makeMove(char player, Move move) {
-        board[move.getX()][move.getY()] = player;
+    public void makeMove(Move move) {
+        if (turn() % 2 == 0) {
+            board[move.getX()][move.getY()] = PLAYER_1;
+        } else {
+            board[move.getX()][move.getY()] = PLAYER_2;
+        }
+    }
+
+    public GameBoard getBoardWithMove(Move move) {
+        GameBoard newBoard = new GameBoard(board);
+        newBoard.makeMove(move);
+        return newBoard;
     }
 
     public int turn() {
@@ -114,5 +139,18 @@ public class GameBoard {
 
 
         return winner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameBoard board1 = (GameBoard) o;
+        return Arrays.deepEquals(board, board1.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(board);
     }
 }

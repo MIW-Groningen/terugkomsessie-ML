@@ -7,10 +7,6 @@ import java.util.Set;
  * Purpose of the program
  */
 public class RandomPlayer extends Player {
-    public RandomPlayer(char playerSymbol) {
-        super(playerSymbol);
-    }
-
     @Override
     public Move getMove(GameBoard board) {
         return getRandomMove(board.potentialMoves());
